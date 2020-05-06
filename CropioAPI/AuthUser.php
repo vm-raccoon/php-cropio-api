@@ -20,4 +20,12 @@ class AuthUser {
         }
     }
 
+    public function getUserID(){
+        return $this->user_id;
+    }
+
+    public function getToken(){
+        return $this->user_api_token;
+    }
+
 }

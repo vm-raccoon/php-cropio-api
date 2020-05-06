@@ -7,6 +7,7 @@ class Routes {
 
     private $route = [
         'auth' => '/sign_in',
+        'logout' => '/security/forced_log_out/users/[USER_ID]',
         'single' => '/[RESOURCE]/[ID]',
         'collection' => '/[RESOURCE]',
         'ids' => '/[RESOURCE]/ids',
@@ -24,6 +25,11 @@ class Routes {
                 $this->urn,
                 $this->route[$name]
             );
+            if(isset($arguments[0])){
+                foreach($arguments[0] as $k => $v){
+                    $result = str_replace('[' . strtoupper($k) . ']', $v, $result);
+                }
+            }
         }
 
         return $result;
