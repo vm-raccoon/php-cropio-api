@@ -29,6 +29,4 @@ class Routes {
         return $result;
     }
 
-    //
-
 }
