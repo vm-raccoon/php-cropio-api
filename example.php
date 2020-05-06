@@ -2,5 +2,6 @@
 
 require('CropioAPI/Api.php');
 
-echo 'Example file';
-
+$config = require('config.php');
+$api = new Api($config);
+print_r($api);
