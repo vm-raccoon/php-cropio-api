@@ -169,5 +169,21 @@ class Api {
         return $response['data'] ?? null;
     }
 
+    public function multi_edit($resource, $array){
+        if(!$this->resources->exists($resource) || !is_array($array)){
+            return null;
+        }
+
+        $result = [];
+
+        foreach($array as $id => $data){
+            if(is_numeric($id) && is_array($data)){
+                $result[$id] = $this->edit($resource, $id, $data);
+            }
+        }
+
+        return $result;
+    }
+
 }
 
