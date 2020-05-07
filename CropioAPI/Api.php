@@ -185,5 +185,32 @@ class Api {
         return $result;
     }
 
+    public function create($resource, $data){
+        if(!$this->resources->exists($resource)){
+            return null;
+        }
+
+        $response = $this->_request('post', $this->routes->collection([
+            'resource' => $resource,
+        ]), [
+            'data' => $data,
+        ]);
+
+        return $response['data'] ?? null;
+    }
+
+    public function delete($resource, $id){
+        if(!$this->resources->exists($resource)){
+            return null;
+        }
+
+        $response = $this->_request('delete', $this->routes->single([
+            'resource' => $resource,
+            'id' => $id,
+        ]));
+
+        # return $response ?? null;
+    }
+
 }
 
