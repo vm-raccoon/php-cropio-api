@@ -154,7 +154,7 @@ class Api {
         return $this->mass_request($resource, $this->ids($resource));
     }
 
-    public function edit($resource, $id, $data){
+    public function update($resource, $id, $data){
         if(!$this->resources->exists($resource)){
             return null;
         }
@@ -169,7 +169,7 @@ class Api {
         return $response['data'] ?? null;
     }
 
-    public function multi_edit($resource, $array){
+    public function multi_update($resource, $array){
         if(!$this->resources->exists($resource) || !is_array($array)){
             return null;
         }
@@ -178,7 +178,7 @@ class Api {
 
         foreach($array as $id => $data){
             if(is_numeric($id) && is_array($data)){
-                $result[$id] = $this->edit($resource, $id, $data);
+                $result[$id] = $this->update($resource, $id, $data);
             }
         }
 
