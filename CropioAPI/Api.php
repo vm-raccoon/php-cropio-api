@@ -73,6 +73,10 @@ class Api {
     }
 
     public function single($resource, $id){
+        if(!$this->resources->exists($resource)){
+            return null;
+        }
+
         $response = $this->_request('get', $this->routes->single([
             'resource' => $resource,
             'id' => $id,
@@ -82,6 +86,10 @@ class Api {
     }
 
     public function collection($resource, $params = []){
+        if(!$this->resources->exists($resource)){
+            return null;
+        }
+
         $response = $this->_request('get', $this->routes->collection([
             'resource' => $resource,
         ]), $params);
@@ -90,6 +98,10 @@ class Api {
     }
 
     public function ids($resource){
+        if(!$this->resources->exists($resource)){
+            return null;
+        }
+
         $response = $this->_request('get', $this->routes->ids([
             'resource' => $resource,
         ]));
@@ -98,6 +110,10 @@ class Api {
     }
 
     public function changes($resource, $params = []){
+        if(!$this->resources->exists($resource)){
+            return null;
+        }
+
         $response = $this->_request('get', $this->routes->changes([
             'resource' => $resource,
         ]), $params);
@@ -105,6 +121,10 @@ class Api {
     }
 
     public function changes_ids($resource, $params = []){
+        if(!$this->resources->exists($resource)){
+            return null;
+        }
+
         $response = $this->_request('get', $this->routes->changes_ids([
             'resource' => $resource,
         ]), $params);
@@ -113,6 +133,10 @@ class Api {
     }
 
     public function mass_request($resource, $ids){
+        if(!$this->resources->exists($resource)){
+            return null;
+        }
+
         $response = $this->_request('post', $this->routes->mass_request([
             'resource' => $resource,
         ]), [
@@ -123,7 +147,26 @@ class Api {
     }
 
     public function all($resource){
+        if(!$this->resources->exists($resource)){
+            return null;
+        }
+
         return $this->mass_request($resource, $this->ids($resource));
+    }
+
+    public function edit($resource, $id, $data){
+        if(!$this->resources->exists($resource)){
+            return null;
+        }
+
+        $response = $this->_request('put', $this->routes->single([
+            'resource' => $resource,
+            'id' => $id,
+        ]), [
+            'data' => $data,
+        ]);
+
+        return $response['data'] ?? null;
     }
 
 }
