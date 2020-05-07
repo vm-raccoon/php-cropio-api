@@ -169,7 +169,7 @@ class Api {
         return $response['data'] ?? null;
     }
 
-    public function multi_update($resource, $array){
+    public function multiple_update($resource, $array){
         if(!$this->resources->exists($resource) || !is_array($array)){
             return null;
         }
@@ -199,16 +199,20 @@ class Api {
         return $response['data'] ?? null;
     }
 
-    public function multi_create($resource, $array){
+    public function multiple_create($resource, $array){
         if(!$this->resources->exists($resource) || !is_array($array)){
             return null;
         }
 
         $result = [];
 
-        foreach($array as $id => $data){
-            if(is_numeric($id) && is_array($data)){
-                $result[$id] = $this->create($resource, $id, $data);
+        foreach($array as $data){
+            if(is_array($data)){
+                $object = $this->create($resource, $data);
+                if(!is_null($object)){
+                    $id = $object['id'];
+                    $result[$id] = $object;
+                }
             }
         }
 
@@ -228,7 +232,7 @@ class Api {
         # return $response ?? null;
     }
 
-    public function multi_delete($resource, $ids){
+    public function multiple_delete($resource, $ids){
         if(!$this->resources->exists($resource) || !is_array($ids)){
             return null;
         }
