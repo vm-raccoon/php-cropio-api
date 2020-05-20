@@ -10,15 +10,16 @@ class Api {
     private $email = null;
     private $password = null;
 
+    private $errors = false;
     private $routes = null;
     private $request = null;
     private $authuser = null;
     private $resources = null;
 
-
-    public function __construct($credentials){
+    public function __construct($credentials, $errors = false){
         $this->email = $credentials['email'] ?? null;
         $this->password = $credentials['password'] ?? null;
+        $this->errors = $errors;
         $this->routes = new Routes();
         $this->request = new Request(Request::AS_ARRAY);
         $this->resources = new Resources();
@@ -74,7 +75,7 @@ class Api {
 
     public function single($resource, $id){
         if(!$this->resources->exists($resource)){
-            return null;
+            return ($this->errors ? 'Resource not found' : null);
         }
 
         $response = $this->_request('get', $this->routes->single([
@@ -82,59 +83,59 @@ class Api {
             'id' => $id,
         ]));
 
-        return $response['data'] ?? null;
+        return $response['data'] ?? ($this->errors ? $response : null);
     }
 
     public function collection($resource, $params = []){
         if(!$this->resources->exists($resource)){
-            return null;
+            return ($this->errors ? 'Resource not found' : null);
         }
 
         $response = $this->_request('get', $this->routes->collection([
             'resource' => $resource,
         ]), $params);
 
-        return $response['data'] ?? null;
+        return $response['data'] ?? ($this->errors ? $response : null);
     }
 
     public function ids($resource){
         if(!$this->resources->exists($resource)){
-            return null;
+            return ($this->errors ? 'Resource not found' : null);
         }
 
         $response = $this->_request('get', $this->routes->ids([
             'resource' => $resource,
         ]));
 
-        return $response['data'] ?? [];
+        return $response['data'] ?? ($this->errors ? $response : []);
     }
 
     public function changes($resource, $params = []){
         if(!$this->resources->exists($resource)){
-            return null;
+            return ($this->errors ? 'Resource not found' : null);
         }
 
         $response = $this->_request('get', $this->routes->changes([
             'resource' => $resource,
         ]), $params);
-        return $response['data'] ?? null;
+        return $response['data'] ?? ($this->errors ? $response : null);
     }
 
     public function changes_ids($resource, $params = []){
         if(!$this->resources->exists($resource)){
-            return null;
+            return ($this->errors ? 'Resource not found' : null);
         }
 
         $response = $this->_request('get', $this->routes->changes_ids([
             'resource' => $resource,
         ]), $params);
 
-        return $response['data'] ?? null;
+        return $response['data'] ?? ($this->errors ? $response : null);
     }
 
     public function mass_request($resource, $ids){
         if(!$this->resources->exists($resource)){
-            return null;
+            return ($this->errors ? 'Resource not found' : null);
         }
 
         $response = $this->_request('post', $this->routes->mass_request([
@@ -143,12 +144,12 @@ class Api {
             'data' => $ids,
         ]);
 
-        return $response['data'] ?? null;
+        return $response['data'] ?? ($this->errors ? $response : null);
     }
 
     public function all($resource){
         if(!$this->resources->exists($resource)){
-            return null;
+            return ($this->errors ? 'Resource not found' : null);
         }
 
         return $this->mass_request($resource, $this->ids($resource));
@@ -156,7 +157,7 @@ class Api {
 
     public function update($resource, $id, $data){
         if(!$this->resources->exists($resource)){
-            return null;
+            return ($this->errors ? 'Resource not found' : null);
         }
 
         $response = $this->_request('put', $this->routes->single([
@@ -166,7 +167,7 @@ class Api {
             'data' => $data,
         ]);
 
-        return $response['data'] ?? null;
+        return $response['data'] ?? ($this->errors ? $response : null);
     }
 
     public function multiple_update($resource, $array){
@@ -187,7 +188,7 @@ class Api {
 
     public function create($resource, $data){
         if(!$this->resources->exists($resource)){
-            return null;
+            return ($this->errors ? 'Resource not found' : null);
         }
 
         $response = $this->_request('post', $this->routes->collection([
@@ -196,12 +197,12 @@ class Api {
             'data' => $data,
         ]);
 
-        return $response['data'] ?? null;
+        return $response['data'] ?? ($this->errors ? $response : null);
     }
 
     public function multiple_create($resource, $array){
         if(!$this->resources->exists($resource) || !is_array($array)){
-            return null;
+            return ($this->errors ? 'Resource not found' : null);
         }
 
         $result = [];
@@ -221,7 +222,7 @@ class Api {
 
     public function delete($resource, $id){
         if(!$this->resources->exists($resource)){
-            return null;
+            return ($this->errors ? 'Resource not found' : null);
         }
 
         $response = $this->_request('delete', $this->routes->single([
@@ -234,7 +235,7 @@ class Api {
 
     public function multiple_delete($resource, $ids){
         if(!$this->resources->exists($resource) || !is_array($ids)){
-            return null;
+            return ($this->errors ? 'Resource not found' : null);
         }
 
         foreach($ids as $id){
