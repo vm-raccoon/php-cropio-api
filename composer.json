@@ -1,0 +1,12 @@
+{
+    "name": "vm-raccoon/php-cropio-api",
+    "autoload": {
+        "files": [
+            "CropioAPI/Api.php",
+            "CropioAPI/AuthUser.php",
+            "CropioAPI/Request.php",
+            "CropioAPI/Resources.php",
+            "CropioAPI/Routes.php"
+        ]
+    }
+}
