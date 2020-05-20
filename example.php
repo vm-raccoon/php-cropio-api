@@ -1,6 +1,8 @@
 <?php
 
-require('CropioAPI/Api.php');
+require __DIR__ . '/vendor/autoload.php';
+
+use CropioAPI\Api;
 
 # credentials
 $config = require('config.php');

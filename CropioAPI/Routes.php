@@ -1,5 +1,7 @@
 <?php
 
+namespace CropioAPI;
+
 class Routes {
 
     private $domain = 'https://cropio.com';

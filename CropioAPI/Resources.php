@@ -1,5 +1,7 @@
 <?php
 
+namespace CropioAPI;
+
 class Resources {
 
     private $structure = [

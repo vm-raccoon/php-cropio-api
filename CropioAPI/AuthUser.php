@@ -1,5 +1,7 @@
 <?php
 
+namespace CropioAPI;
+
 class AuthUser {
 
     private $user_api_token = null;

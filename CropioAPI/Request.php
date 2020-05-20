@@ -1,5 +1,7 @@
 <?php
 
+namespace CropioAPI;
+
 class Request {
 
     const AS_ARRAY = true;

@@ -1,9 +1,11 @@
 <?php
 
-require('AuthUser.php');
-require('Routes.php');
-require('Request.php');
-require('Resources.php');
+namespace CropioAPI;
+
+use CropioAPI\AuthUser;
+use CropioAPI\Request;
+use CropioAPI\Resources;
+use CropioAPI\Routes;
 
 class Api {
 
